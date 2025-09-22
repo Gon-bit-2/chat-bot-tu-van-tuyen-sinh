@@ -1,0 +1,21 @@
+{
+ "name": "tuyensinh-chatbot",
+ "version": "1.0.0",
+ "description": "",
+ "main": "index.js",
+ "type": "module",
+ "scripts": {
+  "test": "echo \"Error: no test specified\" && exit 1"
+ },
+ "keywords": [],
+ "author": "",
+ "license": "ISC",
+ "dependencies": {
+  "@langchain/community": "^0.3.56",
+  "@langchain/core": "^0.3.77",
+  "cors": "^2.8.5",
+  "dotenv": "^17.2.2",
+  "express": "^5.1.0",
+  "ollama": "^0.5.18"
+ }
+}
