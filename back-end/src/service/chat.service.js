@@ -5,7 +5,7 @@ import {
   SystemMessage,
   AIMessage,
 } from "@langchain/core/messages";
-import Conversation from "../model/conversation.model.js";
+import database from "../config/database.js";
 class ChatService {
   constructor() {
     this.conversationHistory = new Map();
@@ -36,14 +36,14 @@ class ChatService {
   }
   async loadConversation(sessionId) {
     try {
-      let conversation = await Conversation.findOne({ sessionId });
+      let conversation = await database.conversation.findOne({ sessionId });
       if (!conversation) {
         const systemMessage = new SystemMessage(
           "Bạn là một trợ lý AI chuyên về tư vấn tuyển sinh đại học tại Việt Nam. " +
             "Hãy luôn luôn trả lời bằng tiếng Việt một cách lịch sự, rõ ràng và dễ hiểu. " +
             "Tuyệt đối không sử dụng tiếng Anh trừ khi đó là tên riêng hoặc thuật ngữ không thể dịch."
         );
-        conversation = new Conversation({
+        conversation = new database.conversation({
           sessionId,
           messages: [this.messageToDbFormat(systemMessage)],
         });
@@ -70,7 +70,7 @@ class ChatService {
   async saveConversation(sessionId, messages) {
     try {
       const dbMessages = messages.map((msg) => this.messageToDbFormat(msg));
-      await Conversation.findOneAndUpdate(
+      await database.conversation.findOneAndUpdate(
         { sessionId },
         { messages: dbMessages, updatedAt: new Date() },
         { upsert: true, new: true }
@@ -81,32 +81,34 @@ class ChatService {
     }
   }
   async chat(message, sessionId = "default", metadata = {}) {
-    //load conversation from memory
-    const history = await this.loadFromMemory(sessionId);
-    //add user message
-    const userMessage = new HumanMessage(message);
-    history.push(userMessage);
-    console.log("message", message);
-    console.log("conversation history", history.length);
-    //get ai response
-    const response = await ollama.invoke(history);
-    console.log("response", response);
-    const responseText =
-      response.content || response.text || response.toString();
-    //add ai message to history
-    const aiMessage = new AIMessage(responseText);
-    history.push(aiMessage);
-    //save conversation
-    await this.saveConversation(sessionId, history);
-    return responseText;
+    try {
+      //load conversation from memory
+      const history = await this.loadConversation(sessionId);
+      //add user message
+      const userMessage = new HumanMessage(message);
+      history.push(userMessage);
+      console.log("message", message);
+      console.log("conversation history", history.length);
+      //get ai response
+      const response = await ollama.invoke(history);
+      console.log("response", response);
+      const responseText =
+        response.content || response.text || response.toString();
+      //add ai message to history
+      const aiMessage = new AIMessage(responseText);
+      history.push(aiMessage);
+      //save conversation
+      await this.saveConversation(sessionId, history);
+      return responseText;
+    } catch (error) {
+      console.error("Lỗi khi gọi Ollama:", error);
+      return "Xin lỗi, tôi không thể trả lời câu hỏi này lúc này.";
+    }
   }
-  catch(error) {
-    console.error("Lỗi khi gọi Ollama:", error);
-    return "Xin lỗi, tôi không thể trả lời câu hỏi này lúc này.";
-  }
+
   async clearHistory(sessionId) {
     try {
-      await Conversation.findOneAndDelete({ sessionId });
+      await database.conversation.findOneAndDelete({ sessionId });
       this.conversationHistory.delete(sessionId);
       return {
         success: true,
@@ -119,7 +121,7 @@ class ChatService {
   }
   async getHistoryLength(sessionId = "default") {
     try {
-      const conversation = await Conversation.findOne({ sessionId });
+      const conversation = await database.conversation.findOne({ sessionId });
       return conversation ? conversation.messages.length : 0;
     } catch (error) {
       console.error("Error getting history length:", error);
