@@ -6,7 +6,7 @@ import authService from "../service/auth.service.js";
 class AuthController {
   signup = async (req, res) => {
     // console.log('[P]::signup::', req.body)
-    const handleSignUp = await authService.sigUp(req.body);
+    const handleSignUp = await authService.signup(req.body);
     new SuccessResponse({
       message: "Sign Up Success",
       metadata: handleSignUp,

@@ -1,5 +1,5 @@
 import database from "../config/database.js";
-import hashPassword from "../utils/hashPassword.js";
+import { hashPassword, comparePassword } from "../utils/hashPassword.js";
 import crypto from "crypto";
 import { getInfoData } from "../utils/info.js";
 import keyTokenService from "./keyToken.service.js";
@@ -9,11 +9,11 @@ import {
   AuthFailureError,
   ForbiddenError,
 } from "../middleware/error.middleware.js";
-import comparePassword from "../utils/comparePassword.js";
+
 class AuthService {
   async signup(user) {
-    const user = await database.user.findOne({ email: user.email }).lean();
-    if (user) {
+    const existUser = await database.user.findOne({ email: user.email }).lean();
+    if (existUser) {
       throw new BadRequestError("User already exists");
     }
     const hashedPassword = await hashPassword(user.password);
@@ -31,7 +31,7 @@ class AuthService {
       console.log({ privateKey, publicKey });
       //create token pair
       const tokens = await createTokenPair(
-        { userId: newUser._id, email },
+        { userId: newUser._id, email: newUser.email },
         publicKey,
         privateKey
       );
@@ -55,7 +55,7 @@ class AuthService {
       return {
         code: 201,
         metadata: {
-          shop: getInfoData({
+          user: getInfoData({
             fields: ["_id", "name", "email"],
             object: newUser,
           }),
@@ -97,7 +97,7 @@ class AuthService {
     });
 
     return {
-      shop: getInfoData({
+      user: getInfoData({
         fields: ["_id", "name", "email"],
         object: foundShop,
       }),
@@ -120,12 +120,12 @@ class AuthService {
       throw new ForbiddenError("Something wrong happend !! Pls reLogin");
     }
     if (keyStore.refreshToken !== refreshToken) {
-      throw new AuthFailureError("Shop not registered 1");
+      throw new AuthFailureError("User not registered 1");
     }
 
-    const foundShop = await database.user.findOne({ email });
-    if (!foundShop) {
-      throw new AuthFailureError("Shop not registered 2");
+    const foundUser = await database.user.findOne({ email });
+    if (!foundUser) {
+      throw new AuthFailureError("User not registered 2");
     }
 
     //create token mới

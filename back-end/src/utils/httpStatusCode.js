@@ -1,5 +1,5 @@
-import { reasonPhrases } from "./reasonPhrases";
-import { statusCodes } from "./statusCodes";
+import { reasonPhrases } from "./reasonPhrases.js";
+import { statusCodes } from "./statusCodes.js";
 
 export const httpStatusCode = {
   statusCodes,

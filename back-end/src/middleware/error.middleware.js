@@ -1,8 +1,6 @@
 "use strict";
-
-import { reasonPhrases } from "../utils/reasonPhrases";
-import { statusCodes } from "../utils/statusCodes";
-
+import { httpStatusCode } from "../utils/httpStatusCode.js";
+const { statusCodes, reasonPhrases } = httpStatusCode;
 class ErrorResponse extends Error {
   status;
 

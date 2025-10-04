@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import database from "../config/database";
+import database from "../config/database.js";
 
 class KeyTokenService {
   async createKeyToken({ userId, publicKey, privateKey, refreshToken }) {

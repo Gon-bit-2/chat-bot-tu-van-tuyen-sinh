@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
 import "dotenv/config";
-import Conversation from "../model/conversation.model";
-import KeyToken from "../model/keytoken.model";
+import Conversation from "../model/conversation.model.js";
+import KeyToken from "../model/keytoken.model.js";
+import User from "../model/user.model.js";
 
 class Database {
   async connectDB() {
