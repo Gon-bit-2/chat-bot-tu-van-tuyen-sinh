@@ -20,7 +20,7 @@ axiosConfig.interceptors.request.use(
     }
 
     // Log request để debug (chỉ trong development)
-    if (import.meta.env.DEV) {
+    if (import.meta.env.VITE_ENV === "DEVELOPMENT") {
       console.log("🚀 Request:", {
         method: config.method?.toUpperCase(),
         url: config.url,
@@ -40,7 +40,7 @@ axiosConfig.interceptors.request.use(
 axiosConfig.interceptors.response.use(
   (response) => {
     // Log response để debug (chỉ trong development)
-    if (import.meta.env.DEV) {
+    if (import.meta.env.VITE_ENV === "DEVELOPMENT") {
       console.log("✅ Response:", {
         status: response.status,
         url: response.config.url,

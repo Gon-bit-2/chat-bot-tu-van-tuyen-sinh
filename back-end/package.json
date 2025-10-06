@@ -12,7 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@langchain/community": "^0.3.56",
+    "@langchain/community": "^0.3.57",
     "@langchain/core": "^0.3.77",
     "@langchain/ollama": "^0.2.4",
     "@types/bcrypt": "^6.0.0",
@@ -20,9 +20,12 @@
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
+    "faiss-node": "^0.5.1",
     "jsonwebtoken": "^9.0.2",
+    "langchain": "^0.3.35",
     "lodash": "^4.17.21",
     "mongoose": "^8.18.2",
-    "ollama": "^0.5.18"
+    "ollama": "^0.5.18",
+    "pdf-parse": "^1.1.1"
   }
 }

@@ -1,4 +1,5 @@
-import axiosConfig from "../src/config/axios";
+import axiosConfig from "@config/axios";
+
 /**
  * API helper để sử dụng dễ dàng hơn
  * @typedef {Object} ApiHelper

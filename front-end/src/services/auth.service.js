@@ -1,4 +1,4 @@
-import { api } from "../config/axios";
+import api from "@helper/api";
 
 // Service cho các API liên quan đến authentication
 export const authService = {

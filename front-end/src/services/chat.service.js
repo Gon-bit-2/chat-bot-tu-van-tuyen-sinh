@@ -1,4 +1,4 @@
-import { api } from "../config/axios";
+import api from "@helper/api";
 
 export const chatService = {
   // Gửi tin nhắn
