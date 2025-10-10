@@ -1,0 +1,27 @@
+Tên ngành: Công nghệ thông tin
+
+Mã ngành: 7480201
+
+Chuyên ngành:
+
+- Thiết kế Đồ họa/Game/Multimedia;
+
+- Công nghệ phần mềm
+
+Chương trình đào tạo: Lộ trình đào tạo chuẩn là 4 năm với 136 tín chỉ, sinh viên rút ngắn thời gian đào tạo còn 3 năm tùy vào số tín chỉ đăng ký mỗi học kỳ, năm học.
+- Lập trình viên, chuyên viên kiểm duyệt chất lượng phần mềm, chuyên viên kỹ thuật phần cứng máy tính, chuyên gia điều phối các dự án công nghệ thông tin,… tại các công ty phần mềm, giải pháp công nghệ thông tin, lắp ráp, sửa chữa trang thiết bị phần cứng.
+A00: Toán, Lý, Hóa
+
+A01: Toán, Lý, Tiếng Anh
+
+X26: Toán, Tin học, Tiếng Anh
+
+D01: Toán, Văn, Tiếng Anh
+
+X01: Toán, Ngữ văn, Giáo dục kinh tế và pháp luật
+
+X06: Toán, Vật lý, Tin học
+
+X25: Toán, Tiếng Anh, Giáo dục kinh tế và pháp luật
+
+X54: Toán, Giáo dục Kinh tế và pháp luật, Công nghệ công nghiệp

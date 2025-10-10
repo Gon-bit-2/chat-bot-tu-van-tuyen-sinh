@@ -1,0 +1,38 @@
+Tên ngành: Công nghệ thực phẩm
+
+Mã ngành: 7540101
+
+Chuyên ngành:
+
+- Công nghệ thực phẩm;
+
+- Công nghệ chế biến thực phẩm
+
+Chương trình đào tạo: Lộ trình đào tạo chuẩn là 4 năm với 136 tín chỉ, sinh viên rút ngắn thời gian đào tạo còn 3 năm tùy vào số tín chỉ đăng ký mỗi học kỳ, năm học.
+
+Số tín chỉ:
+- Chuyên gia tư vấn dinh dưỡng tại các trung tâm dinh dưỡng, trung tâm y tế.
+
+- Chuyên viên làm việc tại các phòng thí nghiệm, viện nghiên cứu về lĩnh vực thực phẩm.
+
+- Chuyên viên kiểm soát chất lượng, đảm bảo chất lượng, Nghiên cứu và phát triển sản phẩm trong lĩnh vực thực phẩm.
+
+- Kỹ sư quản lý dây chuyền sản xuất, bảo quản, đánh giá chất lượng sản phẩm tại các doanh nghiệp chế biến thực phẩm.
+
+- Giảng viên giảng dạy tại các cơ sở đào tạo ngành Công nghệ thực phẩm.
+-Tổ hợp:
+A00: Toán, Lý, Hóa
+
+A01: Toán, Lý, Tiếng Anh
+
+D01: Toán, Văn, Tiếng Anh
+
+X01: Toán, Ngữ văn, Giáo dục kinh tế và pháp luật
+
+X06: Toán, Vật lý, Tin học
+
+X25: Toán, Tiếng Anh, Giáo dục kinh tế và pháp luật
+
+X26: Toán, Tin học, Tiếng Anh
+
+X54: Toán, Giáo dục Kinh tế và pháp luật, Công nghệ công nghiệp

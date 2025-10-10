@@ -1,0 +1,46 @@
+Tên ngành: Kỹ thuật xây dựng
+
+Mã ngành: 7580201
+
+Chuyên ngành:
+
+- Kỹ thuật xây dựng
+
+Chương trình đào tạo:
+
+Số tín chỉ: 150 tín chỉ
+- Cơ hội nghề nghiệp ngành Kỹ thuật xây dựng luôn rộng mở bởi nhu cầu nguồn nhân lực của ngành này mỗi năm lại tăng lên. Sinh viên với tấm bằng Kỹ sư ngành Kỹ thuật xây dựng khi ra trường sẽ không cần hoang mang lo lắng quá nhiều khi tìm kiếm cho mình một công việc thích hợp.
+
+- Sinh viên sau khi tốt nghiệp có thể đáp ứng các yêu cầu làm việc tại các cơ quan nhà nước; các trường Đại học, Cao đẳng; các doanh nghiệp trong lĩnh vực xây dựng và các tổ chức:
+
+- - Chỉ huy/ kỹ thuật phụ trách thi công công trình;
+
+- - Giám sát thi công, thẩm định, nghiệm thu công trình xây dựng;
+
+- - Kỹ sư giám sát nội bộ;
+
+- - Kỹ sư quản lý chất lượng;
+
+- - Kỹ sư quản lý dây chuyền sản xuất;
+
+- - Chuyên viên tư vấn, lập dự toán, thiết kế kỹ thuật;
+
+- - Thẩm tra thiết kế tại các công ty, tập đoàn xây dựng;
+
+- - Giảng dạy, nghiên cứu tại các cơ quan nghiên cứu, đào tạo chuyên ngành xây dựng ở trong và ngoài nước.
+-Tổ Hợp:
+A00: Toán, Lý, Hóa
+
+A01: Toán, Lý, Tiếng Anh
+
+D01: Toán, Văn, Tiếng Anh
+
+X01: Toán, Ngữ văn, Giáo dục kinh tế và pháp luật
+
+X06: Toán, Vật lý, Tin học
+
+X25: Toán, Tiếng Anh, Giáo dục kinh tế và pháp luật
+
+X26: Toán, Tin học, Tiếng Anh
+
+X54: Toán, Giáo dục Kinh tế và pháp luật, Công nghệ công nghiệp

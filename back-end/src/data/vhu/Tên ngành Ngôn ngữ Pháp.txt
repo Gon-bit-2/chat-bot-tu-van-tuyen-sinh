@@ -1,0 +1,32 @@
+Tên ngành: Ngôn ngữ Pháp
+
+Mã ngành: 7220203
+
+Chuyên ngành:
+
+- Tiếng Pháp thương mại
+
+Chương trình đào tạo: Lộ trình đào tạo chuẩn là 4 năm với 136 tín chỉ, sinh viên rút ngắn thời gian đào tạo còn 3 năm tùy vào số tín chỉ đăng ký mỗi học kỳ, năm học.
+
+Số tín chỉ:
+- Biên dịch viên dịch thuật; Quản lý văn phòng làm việc hành chính nhân sự cho công ty liên doanh.
+
+- Hướng dẫn viên du lịch tại các khu du lịch nổi tiếng hay công ty du lịch và lễ tân khách sạn.
+
+- Giảng viên tại các trung tâm dạy tiếng Pháp, tư vấn du học Pháp hay các trường nghề đạo tạo tiếng Pháp.
+- Tổ Hợp:
+ A01: Toán, Lý, Tiếng Anh
+
+D01: Toán, Văn, Tiếng Anh
+
+D10: Toán, Địa, Tiếng Anh
+
+D15: Văn, Địa, Tiếng Anh
+
+D84: Toán, Giáo dục công dân, Tiếng Anh
+
+D14: Ngữ văn, Lịch sử, Tiếng Anh
+
+D66: Ngữ văn, Giáo dục công dân, Tiếng Anh
+
+D03: Toán, Ngữ văn, Tiếng Pháp

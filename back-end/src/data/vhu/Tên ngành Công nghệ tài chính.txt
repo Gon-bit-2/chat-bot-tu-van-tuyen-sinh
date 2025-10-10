@@ -1,0 +1,36 @@
+Tên ngành: Công nghệ tài chính
+
+Mã ngành: 7340205
+
+Chuyên ngành:
+
+- Công nghệ tài chính
+
+Chương trình đào tạo: Lộ trình đào tạo chuẩn là 4 năm với 136 tín chỉ, sinh viên rút ngắn thời gian đào tạo còn 3 năm tùy vào số tín chỉ đăng ký mỗi học kỳ, năm học.
+- Chuyên viên hoạch định chiến lược, quản lý, kiểm soát hệ thống tài chính tại các cơ quan quản lý tài chính nhà nước, các tổ chức tài chính quốc tế và khu vực, các cơ quan/tổ chức nghiên cứu phát triển công nghệ, các phòng thí nghiệm sáng tạo,…
+
+- Chuyên viên công nghệ tài chính, phát triển công nghệ tài chính, phát triển sản phẩm dịch vụ tài chính mới tại các ngân hàng thương mại, công ty tài chính, công ty chứng khoán;
+
+- Chuyên viên làm việc tại các công ty phát triển công nghệ, các công ty công nghệ tài chính, các công ty phát triển phần mềm, các công ty cung ứng dịch vụ cho thị trường tài chính;
+
+- Chuyên viên thẩm định tài sản, chuyên viên kinh doanh ngoại hối, chuyên viên phân tích rủi ro,…
+
+- Làm chủ các dự án khởi nghiệp trong lĩnh vực công nghệ tài chính;
+
+- Giảng viên và nghiên cứu viên tại các trường đại học, viện nghiên cứu,…
+- Tổ hợp
+A00: Toán, Vật lý, Hóa học
+
+A01: Toán, Vật lý, Tiếng Anh
+
+D01: Toán, Ngữ văn, Tiếng Anh
+
+C04: Toán, Ngữ văn, Địa lý
+
+A12: Toán, Khoa học tự nhiên, Khoa học xã hội
+
+A15: Toán, Khoa học tự nhiên, Giáo dục công dân
+
+X54: Toán, Giáo dục Kinh tế và pháp luật, Công nghệ công nghiệp
+
+X05: Toán, Vật lý, Giáo dục Kinh tế và pháp luật

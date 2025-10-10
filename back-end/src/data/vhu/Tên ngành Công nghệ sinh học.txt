@@ -1,0 +1,32 @@
+Tên ngành: Công nghệ sinh học
+
+Mã ngành: 7420201
+
+Chuyên ngành:
+
+- Công nghệ sinh học
+
+- Công nghệ sinh học nông nghiệp (vật nuôi, thủy sản, cây trồng)
+
+Chương trình đào tạo: Lộ trình đào tạo chuẩn là 4 năm với 136 tín chỉ, sinh viên rút ngắn thời gian đào tạo còn 3 năm tùy vào số tín chỉ đăng ký mỗi học kỳ, năm học.
+- Chuyên viên phân tích mẫu bệnh phẩm; cán bộ xét nghiệm trong bệnh viện, trung tâm y khoa.
+
+- Làm cho các trung tâm, các viện nghiên cứu về sinh học, môi trường, thực phẩm (viện công nghệ sinh học, viện công nghệ môi trường…), các cơ quan nghiên cứu về công nghệ vi sinh, công nghệ sinh học thực vật, công nghệ sinh học động vật, các trung tâm kiểm nghiệm, phòng thí nghiệm
+
+- Tham gia kinh doanh hóa chất và thiết bị phòng thí nghiệm.
+-Tổ hợp:
+A00: Toán, Lý, Hóa
+
+A01: Toán, Vật lý, Tiếng Anh
+
+D01: Ngữ văn, Toán, Tiếng Anh
+
+X01: Toán, Ngữ văn, Giáo dục kinh tế và pháp luật
+
+X06: Toán, Vật lý, Tin học
+
+X25: Toán, Tiếng Anh, Giáo dục kinh tế và pháp luật
+
+X26: Toán, Tin học, Tiếng Anh
+
+X54: Toán, Giáo dục Kinh tế và pháp luật, Công nghệ công nghiệp
