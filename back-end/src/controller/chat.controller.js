@@ -2,26 +2,39 @@
 import chatService from "../service/chat.service.js";
 class ChatController {
   async chat(req, res) {
-    const { message, sessionId } = req.body;
+    const { message, sessionId = "default" } = req.body;
     if (!message) {
       return res
         .status(400)
         .json({ error: "Không tìm thấy message trong request" });
     }
-    const metadata = {
-      userAgent: req.get("user-agent"),
-      ipAddress: req.ip,
-      userId: req.user?._id,
-    };
-    const response = await chatService.chat(message, sessionId || "default");
-    const historyLength = await chatService.getHistoryLength(
-      sessionId || "default"
-    );
-    res.json({
-      reply: response,
-      sessionId: sessionId || "default",
-      historyLength,
-    });
+
+    try {
+      // Thiết lập headers cho Server-Sent Events (SSE)
+      res.setHeader("Content-Type", "text/event-stream");
+      res.setHeader("Cache-Control", "no-cache");
+      res.setHeader("Connection", "keep-alive");
+
+      const { stream, saveHistoryCallback } = await chatService.chat(
+        message,
+        sessionId
+      );
+
+      let fullResponse = "";
+      for await (const chunk of stream) {
+        const content = chunk.content?.toString() || "";
+        fullResponse += content;
+        res.write(`data: ${JSON.stringify({ reply: content })}\n\n`);
+      }
+
+      // Sau khi stream kết thúc, gọi callback để lưu lịch sử
+      await saveHistoryCallback(fullResponse);
+
+      res.end();
+    } catch (error) {
+      console.error("Lỗi khi xử lý chat stream:", error);
+      res.status(500).json({ error: "Lỗi máy chủ nội bộ." });
+    }
   }
   async clearHistory(req, res) {
     const { sessionId } = req.body;

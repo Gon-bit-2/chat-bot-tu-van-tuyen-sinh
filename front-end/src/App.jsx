@@ -1,4 +1,9 @@
+import ChatStreamComponent from "./components/ChatStream";
 const App = () => {
-  return <div>App</div>;
+  return (
+    <div>
+      <ChatStreamComponent />
+    </div>
+  );
 };
 export default App;

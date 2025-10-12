@@ -1,0 +1,36 @@
+Tên ngành: Luật
+
+Mã ngành: 7380101
+
+Chuyên ngành:
+
+- Luật dân sự;
+
+- Luật thương mại quốc tế;
+
+- Luật tài chính ngân hàng
+
+Chương trình đào tạo: Lộ trình đào tạo chuẩn là 4 năm với 136 tín chỉ, sinh viên rút ngắn thời gian đào tạo còn 3 năm tùy vào số tín chỉ đăng ký mỗi học kỳ, năm học.
+- Chuyên viên pháp lý trong ngân hàng, các tổ chức đầu tư, các công ty vừa và lớn. Có thể phát triển thành quản trị viên, nhà quản lý điều hành doanh nghiệp.
+
+- Chuyên viên pháp lý hoặc luật sư làm việc tại các công ty luật, văn phòng luật sư. Hoặc Trọng tài viên tại các trung tâm trọng tài thương mại.
+
+- Có thể đảm nhiệm các vị trí công việc ở các cơ quan nhà nước như: thư ký/ thẩm phán làm việc tại Tòa án; Kiểm sát viên làm việc tại Viện Kiểm sát; Chấp hành viên làm việc tại cơ quan thi hành án…
+
+- Có thể trở thành giảng viên chuyên ngành luật tại các trường đại học, cao đẳng.
+-Tổ hợp:
+A00: Toán, Lý, Hóa
+
+A01: Toán, Lý, Tiếng Anh
+
+C04: Toán, Văn, Địa
+
+D01: Toán, Văn, Tiếng Anh
+
+A12: Toán, Khoa học tự nhiên, Khoa học xã hội
+
+Y08: Ngữ văn, Giáo dục Kinh tế và pháp luật, Công nghệ công nghiệp
+
+X54: Toán, Giáo dục Kinh tế và pháp luật, Công nghệ công nghiệp
+
+X74: Ngữ văn, Địa lý, Giáo dục Kinh tế và pháp luật

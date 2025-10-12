@@ -1,0 +1,33 @@
+Tên ngành: Kinh doanh thương mại
+
+Mã ngành: 7340121
+
+Chuyên ngành:
+
+- Kinh doanh thương mại
+
+Chương trình đào tạo: Lộ trình đào tạo chuẩn là 4 năm với 136 tín chỉ, sinh viên rút ngắn thời gian đào tạo còn 3 năm tùy vào số tín chỉ đăng ký mỗi học kỳ, năm học.
+- Làm việc tại các doanh nghiệp: Quản trị viên thương mại, vị trí trong bộ phận kinh doanh, quản lý kinh doanh, quản lý khách hàng, điều hành kinh doanh, kinh doanh xuất nhập khẩu, phát triển thị trường, bộ phận kho vận;
+
+- Làm việc tại các công ty đa quốc gia, các doanh nghiệp có vốn đầu tư nước ngoài: Quản lý và giám sát bán hàng, bộ phận nghiên cứu và phát triển;
+
+- Làm việc tại các cơ quan đại diện thương mại Việt Nam ở nước ngoài và các tổ chức thương mại quốc tế: Bộ phận phát triển thương mại quốc tế;
+
+- Làm vệc tại các viện nghiên cứu các trường đại học, cao đẳng: Giảng dạy và nghiên cứu các lĩnh vực thương mại.
+
+- Chuyên viên kinh doanh tại các công ty đa quốc gia; Chuyên viên tại các công ty kinh doanh ngoại tệ; Chuyên viên phụ trách các nhãn hàng quốc tế.
+A00: Toán, Vật lý, Hóa học
+
+A01: Toán, Vật lý, Tiếng Anh
+
+C04: Toán, Ngữ văn, Địa lý
+
+D01: Toán, Ngữ văn, Tiếng Anh
+
+A12: Toán, Khoa học tự nhiên, Khoa học xã hội
+
+A15: Toán, Khoa học tự nhiên, Giáo dục công dân
+
+X54: Toán, Giáo dục Kinh tế và pháp luật, Công nghệ công nghiệp
+
+X05: Toán, Vật lý, Giáo dục Kinh tế và pháp luật

@@ -1,0 +1,28 @@
+Tên ngành: Luật kinh tế
+
+Mã ngành: 7380107
+
+Chuyên ngành:
+
+- Luật kinh tế;
+
+Chương trình đào tạo:
+
+Số tín chỉ:
+
+-Tổ hợp:
+A00: Toán, Lý, Hóa
+
+A01: Toán, Lý, Tiếng Anh
+
+C04: Toán, Văn, Địa
+
+D01: Toán, Văn, Tiếng Anh
+
+A12: Toán, Khoa học tự nhiên, Khoa học xã hội
+
+Y08: Ngữ văn, Giáo dục Kinh tế và pháp luật, Công nghệ công nghiệp
+
+X54: Toán, Giáo dục Kinh tế và pháp luật, Công nghệ công nghiệp
+
+X74: Ngữ văn, Địa lý, Giáo dục Kinh tế và pháp luật

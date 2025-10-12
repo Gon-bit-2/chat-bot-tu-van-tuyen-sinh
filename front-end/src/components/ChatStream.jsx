@@ -11,6 +11,7 @@ function ChatStreamComponent() {
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [chatHistory, streamingResponse]);
+  // src/components/ChatStream.jsx
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
@@ -27,16 +28,17 @@ function ChatStreamComponent() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGUxMzZkNjk5MDQwMzcxYjg3NzFkYzciLCJlbWFpbCI6InZuYXRoaWVuNzAyN0BnbWFpbC5jb20iLCJpYXQiOjE3NTk1OTQyODcsImV4cCI6MTc2MDE5OTA4N30.khUV5XVM3MltE3J3_HmWf_KgLw72SLzhqoFquRCmvMw`,
+          // Chú ý: Token này chỉ để test, bạn nên quản lý token một cách linh động
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGUxMzZkNjk5MDQwMzcxYjg3NzFkYzciLCJlbWFpbCI6InZuYXRoaWVuNzAyN0BnbWFpbC5jb20iLCJpYXQiOjE3NjAyMDQyMzQsImV4cCI6MTc2MDgwOTAzNH0.N-uSmgM0aQE5EQcZ4mtT__iK9klhIPx9opKZyWSKM1A`,
         },
         body: JSON.stringify({
           message: message,
-          sessionId: "test04",
+          sessionId: "5", // Bạn có thể quản lý sessionId này động
         }),
       });
 
       if (!response.ok || !response.body) {
-        throw new Error("Network response was not ok.");
+        throw new Error("Phản hồi từ mạng không hợp lệ.");
       }
 
       const reader = response.body.getReader();
@@ -45,7 +47,15 @@ function ChatStreamComponent() {
 
       while (true) {
         const { value, done } = await reader.read();
-        if (done) break;
+        if (done) {
+          // Stream đã kết thúc, cập nhật lịch sử chat với câu trả lời đầy đủ
+          setChatHistory((prev) => [
+            ...prev,
+            { role: "ai", content: accumulatedResponse },
+          ]);
+          setStreamingResponse(""); // Xóa câu trả lời đang stream
+          break; // Thoát khỏi vòng lặp
+        }
 
         const chunk = decoder.decode(value, { stream: true });
         const lines = chunk.split("\n\n").filter((line) => line.trim() !== "");
@@ -56,35 +66,36 @@ function ChatStreamComponent() {
             try {
               const data = JSON.parse(dataStr);
 
-              if (data.event === "end") {
-                setChatHistory((prev) => [
-                  ...prev,
-                  { role: "ai", content: accumulatedResponse },
-                ]);
-                setStreamingResponse("");
-                setIsLoading(false);
-                return;
-              }
-              if (data.chunk) {
-                accumulatedResponse += data.chunk;
+              // SỬA LỖI TẠI ĐÂY: Dùng data.reply thay vì data.chunk
+              if (data.reply) {
+                accumulatedResponse += data.reply;
                 setStreamingResponse(accumulatedResponse);
               }
               if (data.error) {
                 throw new Error(data.error);
               }
             } catch (e) {
-              console.error("Error parsing SSE data:", e);
+              console.error(
+                "Lỗi khi phân tích dữ liệu SSE:",
+                e,
+                "Data string:",
+                dataStr
+              );
             }
           }
         }
       }
     } catch (error) {
-      console.error("Error fetching stream:", error);
-      setStreamingResponse("Xin lỗi, đã có lỗi xảy ra.");
-      setIsLoading(false);
+      console.error("Lỗi khi fetch stream:", error);
+      setStreamingResponse("Xin lỗi, đã có lỗi xảy ra khi kết nối.");
+      setChatHistory((prev) => [
+        ...prev,
+        { role: "ai", content: "Xin lỗi, đã có lỗi xảy ra khi kết nối." },
+      ]);
+    } finally {
+      setIsLoading(false); // Dừng trạng thái loading
     }
   };
-
   return (
     <div className="flex flex-col h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
       {/* Header */}

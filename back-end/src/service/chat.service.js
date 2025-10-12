@@ -106,13 +106,17 @@ class ChatService {
       this.conversationHistory.set(sessionId, messages);
     }
   }
-  async chat(message, sessionId = "default", metadata = {}) {
+
+  async chat(message, sessionId = "default") {
     try {
       if (!vectorStore) {
-        throw new Error("Thư viện số (Vector Store) chưa sẵn sàng.");
+        throw new Error("Vector Store chưa sẵn sàng.");
       }
 
-      const retriever = vectorStore.asRetriever(4);
+      const retriever = vectorStore.asRetriever({
+        k: 2, // Lấy 4 tài liệu liên quan nhất
+      });
+
       const relevantDocs = await retriever.invoke(message);
       const context = formatDocumentsAsString(relevantDocs);
 
@@ -120,7 +124,10 @@ class ChatService {
       console.log(context);
       console.log("----------------------------");
 
-      // **TỐI ƯU PROMPT TEMPLATE**
+      const history = await this.loadConversation(sessionId);
+      // Lấy 6 tin nhắn gần nhất để làm ngữ cảnh hội thoại
+      const recentHistory = history.slice(-6);
+
       const promptTemplate = `
         Bạn là một trợ lý AI tư vấn tuyển sinh của trường Đại học Văn Hiến, nhiệm vụ của bạn là cung cấp thông tin chính xác và hữu ích cho thí sinh.
         Hãy trả lời câu hỏi của người dùng một cách thân thiện, lịch sự bằng tiếng Việt.
@@ -137,38 +144,33 @@ class ChatService {
 
         **CÂU HỎI CỦA NGƯỜI DÙNG:** ${message}
       `;
-
-      // Tạo một System Message duy nhất chứa toàn bộ chỉ dẫn và ngữ cảnh
       const systemMessageWithContext = new SystemMessage(promptTemplate);
 
-      // Tải lịch sử trò chuyện
-      const history = await this.loadConversation(sessionId);
-
+      // Chỉ cần gửi prompt cuối cùng vì đã bao gồm cả ngữ cảnh và lịch sử
       const messagesToInvoke = [
         systemMessageWithContext,
-        ...history, // Thêm lịch sử vào đây để model có ngữ cảnh hội thoại
         new HumanMessage(message),
       ];
 
-      const response = await ollama.invoke(messagesToInvoke);
-      const responseText =
-        response.content?.toString() ||
-        "Xin lỗi, tôi đang gặp một chút sự cố và không thể trả lời lúc này.";
+      // Gọi stream từ ollama
+      const stream = await ollama.stream(messagesToInvoke);
 
-      console.log("--- AI Response Text ---");
-      console.log(responseText);
-      console.log("------------------------");
+      // Callback để lưu lịch sử sau khi stream kết thúc
+      const saveHistoryCallback = async (aiResponseText) => {
+        const userMessage = new HumanMessage(message);
+        const aiMessage = new AIMessage(aiResponseText);
 
-      // Lưu lại câu hỏi và câu trả lời vào lịch sử
-      const userMessage = new HumanMessage(message);
-      const aiMessage = new AIMessage(responseText);
-      history.push(userMessage, aiMessage);
-      await this.saveConversation(sessionId, history);
+        // Tải lại toàn bộ lịch sử để đảm bảo tính nhất quán
+        const fullHistory = await this.loadConversation(sessionId);
+        fullHistory.push(userMessage, aiMessage);
+        await this.saveConversation(sessionId, fullHistory);
+        console.log("Đã lưu lịch sử cho sessionId:", sessionId);
+      };
 
-      return responseText;
+      return { stream, saveHistoryCallback };
     } catch (error) {
-      console.error("Lỗi trong quá trình chat RAG:", error);
-      return "Xin lỗi, đã có lỗi xảy ra trong quá trình xử lý. Vui lòng thử lại.";
+      console.error("Lỗi khi tạo stream:", error);
+      throw new Error("Không thể tạo stream trả lời.");
     }
   }
 

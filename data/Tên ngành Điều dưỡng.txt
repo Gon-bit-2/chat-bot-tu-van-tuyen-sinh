@@ -1,0 +1,30 @@
+Tên ngành: Điều dưỡng
+
+Mã ngành: 7720301
+
+Chuyên ngành:
+
+- Điều dưỡng
+
+Chương trình đào tạo: Lộ trình đào tạo chuẩn là 4 năm với 136 tín chỉ, sinh viên rút ngắn thời gian đào tạo còn 3 năm tùy vào số tín chỉ đăng ký mỗi học kỳ, năm học.
+
+Số tín chỉ:
+- Điều dưỡng viên tại các bệnh viên, trung tâm y tế, cơ sở chăm sóc sức khỏe từ Trung ương đến địa phương của cả nhà nước và tư nhân với vai trò khám và điều trị, chăm sóc các bệnh lý theo chuyên ngành của điều dưỡng.
+
+- Có thể tự mở các dịch vụ chăm sóc sức khỏe và tư vấn sức khỏe phục vụ cho cộng đồng.
+-Tổ hợp:
+ B03: Toán, Văn, Sinh
+
+C02: Toán, Văn, Hóa
+
+D01: Toán, Văn, Tiếng Anh
+
+D07: Toán, Hóa, Tiếng Anh
+
+B04: Toán, Sinh học, Giáo dục công dân
+
+X13: Toán, Sinh học, Giáo dục Kinh tế và pháp luật
+
+X66: Ngữ văn, Sinh học, Giáo dục Kinh tế và pháp luật
+
+B00: Toán, Hóa học, Sinh học

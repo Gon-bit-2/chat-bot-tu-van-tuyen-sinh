@@ -1,0 +1,35 @@
+Tên ngành: Marketing
+
+Mã ngành: 7340115
+
+Chuyên ngành:
+
+- Marketing truyền thông
+
+- Quản trị Marketing
+
+- Digital Marketing
+
+Chương trình đào tạo: Lộ trình đào tạo chuẩn là 4 năm với 136 tín chỉ, sinh viên rút ngắn thời gian đào tạo còn 3 năm tùy vào số tín chỉ đăng ký mỗi học kỳ, năm học.
+- Chuyên viên nghiên cứu thị trường, nghiên cứu khách hàng tại các công ty hoạt động trong các lĩnh vực kinh doanh sản xuất, dịch vụ, quảng cáo, truyền thông,…
+
+- Chuyên viên phòng phát triển và quản trị thương hiệu, chăm sóc khách hàng, quan hệ công chúng, phát triển sản phẩm.
+
+- Chuyên viên nghiên cứu hoạch định kế hoạch marketing, tổ chức sự kiện.
+
+- Chuyên gia kinh doanh; chuyên gia phát triển thị trường, chuyên gia marketing, truyền thông, giám đốc thương hiệu, giám đốc Marketing.
+A00: Toán, Vật lý, Hóa học
+
+A01: Toán, Vật lý, Tiếng Anh
+
+C04: Toán, Ngữ văn, Địa lý
+
+D01: Toán, Văn, Tiếng Anh
+
+A12: Toán, Khoa học tự nhiên, Khoa học xã hội
+
+A15: Toán, Khoa học tự nhiên, Giáo dục công dân
+
+X54: Toán, Giáo dục Kinh tế và pháp luật, Công nghệ công nghiệp
+
+X05: Toán, Vật lý, Giáo dục Kinh tế và pháp luật

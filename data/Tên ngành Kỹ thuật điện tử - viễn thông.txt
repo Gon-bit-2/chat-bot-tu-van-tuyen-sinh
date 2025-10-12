@@ -1,0 +1,42 @@
+Tên ngành: Kỹ thuật điện tử - viễn thông
+
+Mã ngành: 7520207
+
+Chuyên ngành:
+
+- Kỹ thuật điện tử – viễn thông
+
+- Hệ thống nhúng và IoT;
+
+- Thiết kế vi mạch
+
+Chương trình đào tạo: Lộ trình đào tạo chuẩn là 4 năm với 136 tín chỉ, sinh viên rút ngắn thời gian đào tạo còn 3 năm tùy vào số tín chỉ đăng ký mỗi học kỳ, năm học.
+
+Số tín chỉ:
+- Chuyên viên tư vấn, thiết kế, vận hành, điều hành kỹ thuật tại các đài phát thanh, truyền hình.
+
+- Chuyên viên thiết kế truyền dẫn, vận hành, bảo trì tại các công ty điện tử, công ty viễn thông, công ty sản xuất phần mềm trên thiết bị di động,…
+
+- Kỹ sư thiết kế, vận hành, bảo trì kỹ thuật ở các dây chuyền sản xuất.
+
+- Chuyên viên tư vấn, thiết kế, phân tích mô phỏng tại các nhà máy, tập đoàn, công ty thương mại dịch vụ kỹ thuật điều khiển và tự động hóa.
+
+- Chuyên viên tư vấn, thiết kế và vận hành tại các đài phát thanh, đài truyền hình, công ty tư vấn thiết kế mạng viễn thông, công ty sản xuất thiết bị điện tử viễn thông, những công ty sản xuất vi mạch; Chuyên viên thiết kế truyền dẫn, vận hành, bảo trì tại các công ty điện tử, viễn thông.
+
+- Bên cạnh đó, bạn cũng có thể đảm nhận vai trò của Giám đốc kỹ thuật, Trưởng bộ phận kỹ thuật tại các công ty, doanh nghiệp trong lĩnh vực điện tử, viễn thông.
+-Tổ hợp:
+A00: Toán, Lý, Hóa
+
+A01: Toán, Lý, Tiếng Anh
+
+D01: Toán, Văn, Tiếng Anh
+
+X01: Toán, Ngữ văn, Giáo dục kinh tế và pháp luật
+
+X06: Toán, Vật lý, Tin học
+
+X25: Toán, Tiếng Anh, Giáo dục kinh tế và pháp luật
+
+X26: Toán, Tin học, Tiếng Anh
+
+X54: Toán, Giáo dục Kinh tế và pháp luật, Công nghệ công nghiệp

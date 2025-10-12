@@ -1,0 +1,40 @@
+Tên ngành: Kỹ thuật môi trường
+
+Mã ngành: 7520320
+
+Chuyên ngành:
+
+- Kỹ thuật môi trường
+
+Chương trình đào tạo: Lộ trình đào tạo chuẩn là 4 năm với 136 tín chỉ, sinh viên rút ngắn thời gian đào tạo còn 3 năm tùy vào số tín chỉ đăng ký mỗi học kỳ, năm học.
+
+Số tín chỉ:
+- Chuyên viên tư vấn, thiết kế, thi công, giám sát và vận hành các công trình xử lý chất thải tại các đơn vị tư vấn, các cơ sở sản xuất, kinh doanh, công ty, nhà máy, xí nghiệp, các khu công nghiệp, khu đô thị có các công trình xử lý môi trường;
+
+- Chuyên viên quản lý kỹ thuật tại các nhà máy xử lý nước cấp và nước tinh khiết;
+
+- Chuyên viên quan trắc và phân tích môi tường; Chuyên viên môi trường tại các phòng Tài nguyên và Môi trường thuộc Ban quản lý các khu công nghiệp hoặc các đơn vị nhà nước;
+
+- Chuyên viên tại các doanh nghiệp hoạt động về lĩnh vực tư vấn và chuyên giao công nghệ, thiết bị xử lý ô nhiễm môi trường.
+
+- Chuyên viên phát triển chương trình tại các tổ chức xã hội, tổ chức phi chính phủ và tổ chức quốc tế có hoạt động trong lĩnh vực môi trường;
+
+- Chuyên viên quản lý an toàn vệ sinh môi trường lao động ở các đơn vị nhà nước, tư nhân, doanh nghiệp nước ngoài;
+
+- Giảng dạy tại các trường cao đẳng, trung cấp nghề chuyên nghiệp và nghiên cứu viên các viện nghiên cứu trong và ngoài nước.
+-tổ hợp:
+A00: Toán, Lý, Hóa
+
+A01: Toán, Lý, Tiếng Anh
+
+D01: Toán, Văn, Tiếng Anh
+
+X01: Toán, Ngữ văn, Giáo dục kinh tế và pháp luật
+
+X06: Toán, Vật lý, Tin học
+
+X25: Toán, Tiếng Anh, Giáo dục kinh tế và pháp luật
+
+X26: Toán, Tin học, Tiếng Anh
+
+X54: Toán, Giáo dục Kinh tế và pháp luật, Công nghệ công nghiệp

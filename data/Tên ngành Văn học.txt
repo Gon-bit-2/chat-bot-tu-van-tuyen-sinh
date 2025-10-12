@@ -1,0 +1,39 @@
+Tên ngành: Văn học
+
+Mã ngành: 7229030
+
+Chuyên ngành:
+
+- Văn – Quản trị văn phòng;
+
+- Văn – Giảng dạy;
+
+- Văn – Truyền thông
+
+Chương trình đào tạo: Lộ trình đào tạo chuẩn là 4 năm với 136 tín chỉ, sinh viên rút ngắn thời gian đào tạo còn 3 năm tùy vào số tín chỉ đăng ký mỗi học kỳ, năm học.
+
+Số tín chỉ:
+- Cán bộ nghiên cứu, giảng dạy tại các trường đại học, cao đẳng, trung cấp chuyên nghiệp, các trường phổ thông và các cơ sở đào tạo khác; các viện và các trung tâm nghiên cứu về văn học, báo chí, truyền thông
+
+- Chuyên viên tại các cơ quan thông tin, truyền thông cấp tỉnh, thành phố, huyện, xã (như cán bộ chức năng trong các cơ quan quản lý báo chí, tổ chức chính trị xã hội, kinh tế, ngoại giao…)
+
+- Phóng viên, bình luận viên, biên tập viên, điều phối viên truyền thông và tổ chức sự kiện cho các cơ quan báo chí, truyền thông đại chúng
+
+- Công tác nhân sự, hành chính, văn phòng: Chuyên viên, nhân viên ở các cơ quan nhà nước, tập đoàn, doanh nghiệp.
+- Tổ Hợp:
+C00: Văn, Sử, Địa
+
+D01: Toán, Văn, Tiếng Anh
+
+D14: Văn, Sử, Tiếng Anh
+
+D15: Văn, Địa, Tiếng Anh
+
+C14: Ngữ văn, Toán, Giáo dục công dân
+
+C16: Ngữ văn, Vật lý, Giáo dục công dân
+
+X01: Toán, Ngữ văn, Giáo dục Kinh tế và pháp luật
+
+X70: Ngữ văn, Lịch sử, Giáo dục Kinh tế và pháp luật
+
