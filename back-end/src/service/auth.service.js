@@ -149,6 +149,18 @@ class AuthService {
       tokens,
     };
   };
+
+  getCurrentUser = async (user) => {
+    const { userId } = user;
+    const foundUser = await database.user.findById(userId).lean();
+    if (!foundUser) {
+      throw new AuthFailureError("User not found");
+    }
+    return getInfoData({
+      fields: ["_id", "name", "email"],
+      object: foundUser,
+    });
+  };
 }
 const authService = new AuthService();
 export default authService;

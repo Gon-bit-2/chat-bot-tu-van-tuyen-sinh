@@ -1,6 +1,5 @@
 import api from "@helper/api";
 
-// Service cho các API liên quan đến authentication
 export const authService = {
   // Đăng ký tài khoản mới
   register: async (userData) => {

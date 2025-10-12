@@ -39,6 +39,14 @@ class AuthController {
       metadata: handleGetToken,
     }).send(res);
   };
+
+  getCurrentUser = async (req, res) => {
+    const user = await authService.getCurrentUser(req.user);
+    new SuccessResponse({
+      message: "Get current user success",
+      metadata: user,
+    }).send(res);
+  };
 }
 
 const authController = new AuthController();

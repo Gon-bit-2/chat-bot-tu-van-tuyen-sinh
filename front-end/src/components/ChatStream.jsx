@@ -1,22 +1,45 @@
 import { useState, useEffect, useRef } from "react";
+import { chatService } from "@services/chat.service";
+import { useAuth } from "@hook/useAuth";
 
 function ChatStreamComponent() {
   const [message, setMessage] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
   const [streamingResponse, setStreamingResponse] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [sessionId, setSessionId] = useState(null);
   const chatEndRef = useRef(null);
+  const { user, logout } = useAuth();
 
   // Auto scroll to bottom when new messages arrive
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [chatHistory, streamingResponse]);
+  useEffect(() => {
+    const savedSessionId = localStorage.getItem("chatSessionId");
+    if (savedSessionId) {
+      setSessionId(savedSessionId);
+    }
+  }, []);
   // src/components/ChatStream.jsx
-
+  const createNewSession = async () => {
+    try {
+      const data = await chatService.createConversation();
+      if (data.success) {
+        setSessionId(data.sessionId);
+        localStorage.setItem("chatSessionId", data.sessionId);
+        setChatHistory([]); // Reset chat history
+      }
+    } catch (error) {
+      console.error("Lỗi khi tạo session mới:", error);
+    }
+  };
   const handleSendMessage = async (e) => {
     e.preventDefault();
     if (!message.trim() || isLoading) return;
-
+    if (!sessionId) {
+      await createNewSession();
+    }
     const newUserMessage = { role: "user", content: message };
     setChatHistory((prev) => [...prev, newUserMessage]);
     setMessage("");
@@ -24,22 +47,7 @@ function ChatStreamComponent() {
     setIsLoading(true);
 
     try {
-      const response = await fetch("http://localhost:4321/v1/api/chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          // Chú ý: Token này chỉ để test, bạn nên quản lý token một cách linh động
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGUxMzZkNjk5MDQwMzcxYjg3NzFkYzciLCJlbWFpbCI6InZuYXRoaWVuNzAyN0BnbWFpbC5jb20iLCJpYXQiOjE3NjAyMDQyMzQsImV4cCI6MTc2MDgwOTAzNH0.N-uSmgM0aQE5EQcZ4mtT__iK9klhIPx9opKZyWSKM1A`,
-        },
-        body: JSON.stringify({
-          message: message,
-          sessionId: "5", // Bạn có thể quản lý sessionId này động
-        }),
-      });
-
-      if (!response.ok || !response.body) {
-        throw new Error("Phản hồi từ mạng không hợp lệ.");
-      }
+      const response = await chatService.sendMessageStream(message, sessionId);
 
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
@@ -100,13 +108,34 @@ function ChatStreamComponent() {
     <div className="flex flex-col h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
       {/* Header */}
       <div className="bg-white shadow-md border-b border-gray-200">
-        <div className="max-w-4xl mx-auto px-4 py-4">
-          <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
-            🎓 Chatbot Tuyển Sinh
-          </h1>
-          <p className="text-sm text-gray-600 mt-1">
-            Hỏi đáp thông tin tuyển sinh - Hỗ trợ 24/7
-          </p>
+        <div className="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
+          <div>
+            <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+              🎓 Chatbot Tuyển Sinh
+            </h1>
+            <p className="text-sm text-gray-600 mt-1">
+              Hỏi đáp thông tin tuyển sinh - Hỗ trợ 24/7
+            </p>
+            {user && (
+              <p className="text-xs text-gray-500 mt-1">
+                Xin chào, {user.name || user.email}!
+              </p>
+            )}
+          </div>
+          <div className="flex gap-2">
+            <button
+              onClick={createNewSession}
+              className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
+            >
+              Cuộc trò chuyện mới
+            </button>
+            <button
+              onClick={logout}
+              className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+            >
+              Đăng xuất
+            </button>
+          </div>
         </div>
       </div>
 

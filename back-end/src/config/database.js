@@ -8,7 +8,7 @@ class Database {
   async connectDB() {
     try {
       const conn = await mongoose.connect(
-        process.env.MONGODB_URI //|| "mongodb://localhost:27017/chatbot-tuyensinh",
+        process.env.MONGODB_URI || "mongodb://localhost:27017/chatbot-tuyensinh"
       );
 
       console.log(`MongoDB Connected: ${conn.connection.host}`);
