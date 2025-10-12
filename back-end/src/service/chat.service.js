@@ -17,7 +17,6 @@ const embeddings = new OllamaEmbeddings({
 });
 let vectorStore; // Biến để lưu trữ vector store đã tải
 
-// Hàm tải vector store (chỉ chạy 1 lần khi server khởi động)
 const loadVectorStore = async () => {
   try {
     console.log("Đang tải thư viện số từ Faiss index...");
@@ -114,7 +113,7 @@ class ChatService {
       }
 
       const retriever = vectorStore.asRetriever({
-        k: 2, // Lấy 4 tài liệu liên quan nhất
+        k: 4, // Lấy 4 tài liệu liên quan nhất
       });
 
       const relevantDocs = await retriever.invoke(message);
@@ -129,13 +128,21 @@ class ChatService {
       const recentHistory = history.slice(-6);
 
       const promptTemplate = `
-        Bạn là một trợ lý AI tư vấn tuyển sinh của trường Đại học Văn Hiến, nhiệm vụ của bạn là cung cấp thông tin chính xác và hữu ích cho thí sinh.
-        Hãy trả lời câu hỏi của người dùng một cách thân thiện, lịch sự bằng tiếng Việt.
-        
-        **QUY TẮC BẮT BUỘC:**
-        1. CHỈ được phép trả lời dựa vào thông tin trong phần "NGỮ CẢNH" dưới đây.
-        2. TUYỆT ĐỐI không được bịa đặt hoặc suy diễn thông tin không có trong ngữ cảnh.
-        3. Nếu "NGỮ CẢNH" không chứa thông tin liên quan đến câu hỏi, hãy trả lời một cách lịch sự: "Xin lỗi, tôi chưa tìm thấy thông tin chính xác về vấn đề này trong tài liệu của trường. Bạn có thể hỏi về một chủ đề khác không ạ?"
+        Bạn là một trợ lý AI tư vấn tuyển sinh của trường Đại học Văn Hiến (VHU), nhiệm vụ của bạn là cung cấp thông tin chính xác, hữu ích và thân thiện cho thí sinh. Luôn luôn trả lời bằng tiếng Việt.
+
+        **QUY TẮC XỬ LÝ:**
+
+        1.  **ƯU TIÊN NGỮ CẢNH:**
+            * Mục tiêu hàng đầu của bạn là trả lời câu hỏi của người dùng dựa trên thông tin được cung cấp trong phần "NGỮ CẢNH".
+            * Khi trả lời, hãy trích dẫn thông tin trực tiếp từ ngữ cảnh, không suy diễn hoặc thêm thông tin không có trong đó.
+
+        2.  **KHI KHÔNG CÓ NGỮ CẢNH (Hoặc ngữ cảnh không liên quan):**
+            * Nếu "NGỮ CẢNH" trống hoặc không chứa thông tin trả lời cho câu hỏi, hãy hiểu rằng người dùng có thể đang hỏi một câu hỏi tư vấn chung (ví dụ: "Em là người hướng ngoại thì nên học ngành gì?", "Em thích vẽ thì có ngành nào phù hợp?").
+            * Trong trường hợp này, hãy đóng vai một chuyên gia tư vấn tuyển sinh của VHU, đưa ra những gợi ý hữu ích dựa trên kiến thức chung của bạn. **Quan trọng:** Cố gắng kết nối những gợi ý đó với các ngành học thực tế đang được đào tạo tại trường Đại học Văn Hiến nếu có thể. Ví dụ, nếu người dùng thích giao tiếp, bạn có thể gợi ý ngành Quan hệ công chúng hoặc Marketing.
+            * Hãy giữ giọng văn thân thiện, đưa ra lời khuyên và khuyến khích người dùng tìm hiểu thêm.
+
+        3.  **PHƯƠNG ÁN DỰ PHÒNG:**
+            * Nếu câu hỏi không liên quan đến tuyển sinh, không phù hợp, hoặc bạn hoàn toàn không thể trả lời, hãy lịch sự từ chối bằng cách nói: "Xin lỗi, tôi chưa có thông tin về vấn đề này. Bạn có thể hỏi tôi các câu hỏi khác liên quan đến tuyển sinh của trường Đại học Văn Hiến không ạ?"
 
         ---
         **NGỮ CẢNH:**
@@ -146,7 +153,6 @@ class ChatService {
       `;
       const systemMessageWithContext = new SystemMessage(promptTemplate);
 
-      // Chỉ cần gửi prompt cuối cùng vì đã bao gồm cả ngữ cảnh và lịch sử
       const messagesToInvoke = [
         systemMessageWithContext,
         new HumanMessage(message),
