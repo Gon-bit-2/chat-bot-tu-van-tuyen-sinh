@@ -73,7 +73,14 @@ axiosConfig.interceptors.response.use(
           console.error("❌ Không có quyền truy cập");
           break;
         case 404:
-          console.error("❌ Không tìm thấy resource");
+          // Chỉ hiển thị lỗi nếu không phải là endpoints của conversation
+          const isConversationEndpoint =
+            error.config?.url?.includes("/chat/conversations") ||
+            error.config?.url?.includes("/chat/conversation") ||
+            error.config?.url?.includes("/chat/history");
+          if (!isConversationEndpoint) {
+            console.error("❌ Không tìm thấy resource");
+          }
           break;
         case 500:
           console.error("❌ Lỗi server");
