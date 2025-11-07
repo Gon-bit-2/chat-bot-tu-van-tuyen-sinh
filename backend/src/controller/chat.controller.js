@@ -180,6 +180,44 @@ class ChatController {
     }
   }
 
+  async deleteConversation(req, res) {
+    try {
+      const { sessionId } = req.params;
+      if (!sessionId) {
+        return res.status(400).json({ success: false, error: "sessionId là bắt buộc" });
+      }
+
+      const userId = req.user?.userId;
+
+      // Ưu tiên xóa theo sessionId + userId nếu có xác thực user
+      const query = userId ? { sessionId, userId } : { sessionId };
+
+      const deleted = await database.conversation.findOneAndDelete(query);
+
+      if (!deleted) {
+        // Nếu có userId nhưng không tìm thấy (có thể do conversation không thuộc user), thử xóa theo sessionId thuần như fallback
+        if (userId) {
+          const fallbackDeleted = await database.conversation.findOneAndDelete({ sessionId });
+          if (!fallbackDeleted) {
+            return res.status(404).json({ success: false, error: "Không tìm thấy cuộc trò chuyện" });
+          }
+        } else {
+          return res.status(404).json({ success: false, error: "Không tìm thấy cuộc trò chuyện" });
+        }
+      }
+
+      // Xóa cache trong bộ nhớ (nếu có)
+      try {
+        chatService.conversationHistory?.delete(sessionId);
+      } catch (e) {}
+
+      return res.json({ success: true });
+    } catch (error) {
+      console.error("Lỗi khi xóa cuộc trò chuyện:", error);
+      return res.status(500).json({ success: false, error: "Lỗi máy chủ nội bộ." });
+    }
+  }
+
   async webSearch(req, res) {
     try {
       const { message, sessionId } = req.body;

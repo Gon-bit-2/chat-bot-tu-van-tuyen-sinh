@@ -11,6 +11,7 @@ router.post("/", chatController.chat); // POST /v1/api/chat
 router.post("/web-search", chatController.webSearch); // POST /v1/api/chat/web-search
 router.post("/conversation", chatController.createConversation); // POST /v1/api/chat/conversation
 router.get("/conversations", chatController.getAllConversations); // GET /v1/api/chat/conversations (danh sách tất cả)
+router.delete("/conversations/:sessionId", chatController.deleteConversation); // DELETE /v1/api/chat/conversations/:sessionId
 router.get("/history/:sessionId", chatController.getHistory); // GET /v1/api/chat/history/:sessionId
 router.post("/clear", chatController.clearHistory); // POST /v1/api/chat/clear
 export default router;
