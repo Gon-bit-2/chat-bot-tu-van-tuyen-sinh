@@ -431,24 +431,17 @@ class ChatService {
       return null;
     }
   }
-  hasRelevantVHUInfo(docs, message) {
+  hasRelevantVHUInfo(docs, message, scores = null) {
     if (!docs || docs.length === 0) return false;
 
-    // Kiểm tra độ dài nội dung - giảm threshold để chấp nhận nhiều hơn
-    const totalLength = docs.reduce(
-      (sum, doc) => sum + doc.pageContent.length,
-      0
-    );
-    if (totalLength < 50) return false; // Giảm từ 100 xuống 50
-
-    // Kiểm tra từ khóa liên quan - mở rộng danh sách
-    const keywords = [
+    // Từ khóa liên quan đến VHU
+    const vhuKeywords = [
       "văn hiến",
       "vhu",
+      "đại học văn hiến",
       "ngành",
       "tuyển sinh",
       "học phí",
-      "địa chỉ",
       "chuyên ngành",
       "đào tạo",
       "tín chỉ",
@@ -457,13 +450,60 @@ class ChatService {
       "xét tuyển",
       "sinh viên",
       "mã ngành",
+      "điểm chuẩn",
+      "học bổng",
+      "thủ tục",
+      "quy chế",
+      "lịch học",
+      "lịch thi",
+      "ký túc xá",
+      "thư viện",
+      "cơ sở",
+      "trường",
     ];
-    const hasKeyword = docs.some((doc) =>
-      keywords.some((kw) => doc.pageContent.toLowerCase().includes(kw))
+
+    // Kiểm tra từ khóa trong câu hỏi
+    const messageLower = message.toLowerCase();
+    const hasVHUKeywordInQuestion = vhuKeywords.some((kw) =>
+      messageLower.includes(kw)
     );
 
-    // Nới lỏng điều kiện: chỉ cần có keyword HOẶC có ít nhất 1 doc với độ dài đủ
-    return hasKeyword || (docs.length >= 1 && totalLength >= 200);
+    // Nếu câu hỏi KHÔNG có từ khóa VHU, coi như ngoài phạm vi
+    if (!hasVHUKeywordInQuestion) {
+      console.log("⚠️ Câu hỏi không chứa từ khóa liên quan đến VHU");
+      return false;
+    }
+
+    // Kiểm tra similarity score nếu có (Faiss trả về distance, giá trị càng thấp càng giống)
+    if (scores && scores.length > 0) {
+      // Với cosine distance, giá trị càng thấp càng giống (0 = giống hệt, 2 = khác hoàn toàn)
+      // Chỉ chấp nhận documents có distance <= 0.5 (tương đối giống)
+      const goodMatches = scores.filter((score) => score <= 0.5);
+      if (goodMatches.length === 0) {
+        console.log(
+          `⚠️ Không có documents nào có distance <= 0.5. Scores: ${scores
+            .map((s) => s.toFixed(3))
+            .join(", ")}`
+        );
+        return false;
+      }
+    }
+
+    // Kiểm tra độ dài nội dung
+    const totalLength = docs.reduce(
+      (sum, doc) => sum + doc.pageContent.length,
+      0
+    );
+    if (totalLength < 50) return false;
+
+    // Kiểm tra từ khóa trong documents
+    const hasVHUKeywordInDocs = docs.some((doc) =>
+      vhuKeywords.some((kw) => doc.pageContent.toLowerCase().includes(kw))
+    );
+
+    // Yêu cầu: Câu hỏi có từ khóa VHU VÀ documents cũng có từ khóa VHU
+    // và có độ dài đủ lớn
+    return hasVHUKeywordInDocs && totalLength >= 100;
   }
   async chat(message, sessionId = "default", mode = "admission") {
     // Kiểm tra mode hợp lệ
@@ -925,6 +965,7 @@ BẮT ĐẦU TRẢ LỜI BẰNG TIẾNG VIỆT:`
 
     // 1. Tìm kiếm trong Database (nếu không phải mode web-search)
     let vhuDocs = [];
+    let similarityScores = [];
     if (mode !== "web-search" && vectorStore) {
       // Tăng k khi câu hỏi yêu cầu liệt kê nhiều ngành HOẶC hỏi về học phí
       const isListingMajors =
@@ -933,16 +974,24 @@ BẮT ĐẦU TRẢ LỜI BẰNG TIẾNG VIỆT:`
         message
       );
       const k = isListingMajors ? 30 : isTuitionQuestion ? 15 : 8; // Tăng k=15 cho câu hỏi học phí
-      const retriever = vectorStore.asRetriever({ k });
-      vhuDocs = await retriever.getRelevantDocuments(message);
 
-      // Debug: Log số lượng documents và preview
+      // Sử dụng similaritySearchWithScore để lấy similarity scores
+      const results = await vectorStore.similaritySearchWithScore(message, k);
+      vhuDocs = results.map(([doc, score]) => doc);
+      similarityScores = results.map(([doc, score]) => score);
+
+      // Debug: Log số lượng documents, scores và preview
       console.log(
         `📚 Tìm kiếm với k=${k}, tìm thấy ${
           vhuDocs.length
         } documents từ ${mode.toUpperCase()}`
       );
       if (vhuDocs.length > 0) {
+        console.log(
+          `📊 Similarity scores: ${similarityScores
+            .map((s) => s.toFixed(3))
+            .join(", ")}`
+        );
         console.log(
           `📄 Preview document đầu tiên (100 ký tự): ${vhuDocs[0].pageContent.substring(
             0,
@@ -956,8 +1005,8 @@ BẮT ĐẦU TRẢ LỜI BẰNG TIẾNG VIỆT:`
     let useGoogle = false;
     let isOutOfScope = false; // Flag để xác định câu hỏi ngoài phạm vi
 
-    // 2. Kiểm tra relevance score (nếu có metadata)
-    if (this.hasRelevantVHUInfo(vhuDocs, message)) {
+    // 2. Kiểm tra relevance score và từ khóa
+    if (this.hasRelevantVHUInfo(vhuDocs, message, similarityScores)) {
       console.log("✅ Sử dụng thông tin từ VHU Database");
       context = vhuDocs.map((doc) => doc.pageContent).join("\n\n");
       console.log(`📝 Context length: ${context.length} ký tự`);
@@ -997,9 +1046,9 @@ BẮT ĐẦU TRẢ LỜI BẰNG TIẾNG VIỆT:`
 
       let refusalMessage = "";
       if (mode === "admission") {
-        refusalMessage = `Xin lỗi bạn, tôi không tìm thấy thông tin về câu hỏi này trong cơ sở dữ liệu tuyển sinh! 🎓
+        refusalMessage = `Xin lỗi bạn, tôi không biết câu trả lời cho câu hỏi này! 🎓
 
-Tôi là trợ lý tư vấn tuyển sinh Đại học Văn Hiến, chuyên giúp bạn về:
+Tôi là trợ lý tư vấn tuyển sinh Đại học Văn Hiến, chỉ có thể giúp bạn về:
 • Quy trình xét tuyển, hồ sơ đăng ký
 • Thông tin các ngành học, tổ hợp môn  
 • Học phí, học bổng
@@ -1007,12 +1056,12 @@ Tôi là trợ lý tư vấn tuyển sinh Đại học Văn Hiến, chuyên giú
 • Địa chỉ trường, cơ sở vật chất VHU
 
 💡 **Gợi ý**: 
-- Hãy hỏi tôi về tuyển sinh VHU: ngành học, điểm chuẩn, học phí, hồ sơ...
-- Muốn hỏi thông tin khác? Chuyển sang chế độ **"Trò chuyện & Tìm kiếm"** 🔍`;
+- Nếu bạn cần hỏi về tuyển sinh VHU, hãy hỏi tôi về: ngành học, điểm chuẩn, học phí, hồ sơ...
+- Nếu bạn cần thông tin khác ngoài tuyển sinh, vui lòng chọn chế độ **"Trò chuyện & Tìm kiếm"** (option 3) để tiếp tục trò chuyện! 🔍`;
       } else if (mode === "student-support") {
-        refusalMessage = `Xin lỗi bạn, tôi không tìm thấy thông tin về câu hỏi này trong cơ sở dữ liệu hỗ trợ sinh viên! 📚
+        refusalMessage = `Xin lỗi bạn, tôi không biết câu trả lời cho câu hỏi này! 📚
 
-Tôi là trợ lý hỗ trợ sinh viên Đại học Văn Hiến, chuyên giúp bạn về:
+Tôi là trợ lý hỗ trợ sinh viên Đại học Văn Hiến, chỉ có thể giúp bạn về:
 • Lịch học, lịch thi, quy chế đào tạo
 • Thủ tục hành chính (giấy xác nhận, chuyển ngành, bảo lưu...)
 • Cơ sở vật chất, thư viện, ký túc xá
@@ -1020,8 +1069,8 @@ Tôi là trợ lý hỗ trợ sinh viên Đại học Văn Hiến, chuyên giúp
 • Giải đáp các vấn đề học tập tại VHU
 
 💡 **Gợi ý**:
-- Hãy hỏi tôi về học tập tại VHU: lịch thi, thủ tục, quy chế, dịch vụ sinh viên...
-- Muốn hỏi thông tin khác? Chuyển sang chế độ **"Trò chuyện & Tìm kiếm"** 🔍`;
+- Nếu bạn cần hỏi về học tập tại VHU, hãy hỏi tôi về: lịch thi, thủ tục, quy chế, dịch vụ sinh viên...
+- Nếu bạn cần thông tin khác ngoài hỗ trợ sinh viên, vui lòng chọn chế độ **"Trò chuyện & Tìm kiếm"** (option 3) để tiếp tục trò chuyện! 🔍`;
       } else {
         refusalMessage = `Xin lỗi, tôi không tìm thấy thông tin liên quan trong cơ sở dữ liệu. Vui lòng thử lại với câu hỏi khác hoặc chuyển sang chế độ "Trò chuyện & Tìm kiếm" để được trợ giúp. 🔍`;
       }

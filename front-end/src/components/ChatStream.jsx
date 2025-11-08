@@ -261,9 +261,15 @@ function ChatStreamComponent() {
   const handleSendMessage = async (e) => {
     e.preventDefault();
     if (!message.trim() || isLoading) return;
-    if (!sessionId) {
+    
+    // Đảm bảo có sessionId trước khi gửi message
+    let currentSessionId = sessionId || localStorage.getItem("chatSessionId");
+    if (!currentSessionId) {
       await createNewSession();
+      // Lấy sessionId mới sau khi tạo
+      currentSessionId = sessionId || localStorage.getItem("chatSessionId");
     }
+    
     // Detect slash commands for mode overrides (e.g., /web-search or /web)
     let outgoingText = message.trim();
     let effectiveMode = selectedMode;
@@ -286,8 +292,6 @@ function ChatStreamComponent() {
 
     try {
       // Đặt tiêu đề cuộc trò chuyện dựa trên tin nhắn đầu tiên nếu chưa có
-      const currentSessionId =
-        sessionId || localStorage.getItem("chatSessionId");
       if (currentSessionId) {
         const existing = conversations.find((c) => c.id === currentSessionId);
         if (
@@ -325,12 +329,13 @@ function ChatStreamComponent() {
       }
 
       // Gửi message: nếu là web-search, dùng endpoint chuyên biệt
+      // currentSessionId đã được đảm bảo có giá trị ở trên
       const response =
         effectiveMode === "web-search"
-          ? await chatService.webSearch(outgoingText, sessionId)
+          ? await chatService.webSearch(outgoingText, currentSessionId)
           : await chatService.sendMessageStream(
               outgoingText,
-              sessionId,
+              currentSessionId,
               effectiveMode
             );
 
