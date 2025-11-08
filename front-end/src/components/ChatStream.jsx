@@ -125,16 +125,19 @@ function ChatStreamComponent() {
   // Create new conversation
   const createNewSession = async () => {
     try {
+      // Lưu sessionId hiện tại để gửi lên server
+      const currentSessionId = sessionId;
+
       // If current session has messages but is not in conversations yet, add optimistically
-      if (sessionId && chatHistory.length > 0) {
-        const exists = conversations.some((c) => c.id === sessionId);
+      if (currentSessionId && chatHistory.length > 0) {
+        const exists = conversations.some((c) => c.id === currentSessionId);
         if (!exists) {
           const firstUserMsg = chatHistory.find((m) => m.role === "user");
           const preview =
             firstUserMsg?.content?.slice(0, 40) || "Cuộc trò chuyện mới";
           setConversations((prev) => [
             {
-              id: sessionId,
+              id: currentSessionId,
               title: preview,
               createdAt: new Date().toISOString(),
             },
@@ -143,7 +146,8 @@ function ChatStreamComponent() {
         }
       }
 
-      const data = await chatService.createConversation();
+      // Gửi previousSessionId để server đặt tên cho cuộc trò chuyện cũ
+      const data = await chatService.createConversation(currentSessionId);
       if (data.success) {
         setSessionId(data.sessionId);
         localStorage.setItem("chatSessionId", data.sessionId);
@@ -674,10 +678,10 @@ function ChatStreamComponent() {
                 >
                   {/* Avatar */}
                   <div
-                    className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center shadow-md ${
+                    className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center shadow-md overflow-hidden ${
                       msg.role === "user"
                         ? "bg-gradient-to-br from-blue-500 to-blue-600"
-                        : "bg-gradient-to-br from-purple-500 to-indigo-600"
+                        : "bg-white"
                     }`}
                   >
                     {msg.role === "user" ? (
@@ -693,14 +697,11 @@ function ChatStreamComponent() {
                         />
                       </svg>
                     ) : (
-                      <svg
-                        className="w-6 h-6 text-white"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                      >
-                        <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z" />
-                        <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z" />
-                      </svg>
+                      <img
+                        src="/logo.png"
+                        alt="Chatbot Logo"
+                        className="w-full h-full object-cover"
+                      />
                     )}
                   </div>
 
@@ -724,15 +725,12 @@ function ChatStreamComponent() {
             {streamingResponse && (
               <div className="flex justify-start animate-fade-in">
                 <div className="flex max-w-[75%] gap-3">
-                  <div className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center shadow-md bg-gradient-to-br from-purple-500 to-indigo-600">
-                    <svg
-                      className="w-6 h-6 text-white"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z" />
-                      <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z" />
-                    </svg>
+                  <div className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center shadow-md bg-white overflow-hidden">
+                    <img
+                      src="/logo.png"
+                      alt="Chatbot Logo"
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                   <div className="px-4 py-3 rounded-2xl rounded-tl-sm shadow-sm bg-white text-gray-800 border border-gray-200">
                     <p className="text-sm leading-relaxed whitespace-pre-wrap break-words">

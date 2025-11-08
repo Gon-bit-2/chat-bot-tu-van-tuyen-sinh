@@ -49,8 +49,10 @@ export const chatService = {
   },
 
   // Tạo cuộc trò chuyện mới
-  createConversation: async () => {
-    const response = await api.post("/chat/conversation");
+  createConversation: async (previousSessionId = null) => {
+    const response = await api.post("/chat/conversation", {
+      previousSessionId,
+    });
     return response.data;
   },
 

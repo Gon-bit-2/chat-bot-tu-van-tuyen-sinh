@@ -339,29 +339,50 @@ class ChatService {
     try {
       const dbMessages = messages.map((msg) => this.messageToDbFormat(msg));
 
+      // Tìm tin nhắn đầu tiên của user để tạo title
+      const firstUserMessage = messages.find(
+        (msg) => msg instanceof HumanMessage
+      );
+      const title = firstUserMessage
+        ? firstUserMessage.content.trim().slice(0, 50)
+        : "Cuộc trò chuyện mới";
+
       // Kiểm tra conversation đã tồn tại chưa
       const existing = await database.conversation.findOne({ sessionId });
 
       if (existing) {
-        // Nếu đã tồn tại, chỉ update messages
+        // Nếu đã tồn tại, update messages và title (nếu chưa có title)
+        const updateData = {
+          messages: dbMessages,
+          updatedAt: new Date(),
+        };
+
+        // Chỉ cập nhật title nếu chưa có hoặc là "Cuộc trò chuyện mới"
+        if (!existing.title || existing.title === "Cuộc trò chuyện mới") {
+          updateData.title = title;
+        }
+
         await database.conversation.findOneAndUpdate(
           { sessionId },
-          { messages: dbMessages, updatedAt: new Date() },
+          updateData,
           { new: true }
         );
       } else {
-        // Nếu chưa tồn tại, tạo mới với metadata
+        // Nếu chưa tồn tại, tạo mới với metadata và title
         const metadata = this.getSessionMetadata(sessionId);
         await database.conversation.create({
           sessionId,
           messages: dbMessages,
+          title: title,
           userId: metadata.userId,
           userAgent: metadata.userAgent,
           ipAddress: metadata.ipAddress,
           createdAt: new Date(),
           updatedAt: new Date(),
         });
-        console.log(`✅ Conversation mới được tạo: ${sessionId}`);
+        console.log(
+          `✅ Conversation mới được tạo: ${sessionId} với title: ${title}`
+        );
 
         // Xóa metadata sau khi đã lưu
         this.sessionMetadata.delete(sessionId);

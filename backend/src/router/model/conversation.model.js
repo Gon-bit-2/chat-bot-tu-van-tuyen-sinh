@@ -37,6 +37,11 @@ const conversationSchema = new mongoose.Schema(
     userId: String,
     userAgent: String,
     ipAddress: String,
+    // Tên cuộc trò chuyện (tự động tạo từ tin nhắn đầu tiên)
+    title: {
+      type: String,
+      default: null,
+    },
   },
   {
     timestamps: true, // Tự động cập nhật createdAt và updatedAt

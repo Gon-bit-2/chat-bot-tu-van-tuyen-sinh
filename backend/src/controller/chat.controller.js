@@ -78,8 +78,48 @@ class ChatController {
   }
   async createConversation(req, res) {
     try {
-      // Chỉ tạo sessionId, KHÔNG lưu vào database
-      // Database sẽ tự động tạo khi có message đầu tiên
+      const { previousSessionId } = req.body;
+
+      // Nếu có previousSessionId, đảm bảo cuộc trò chuyện cũ có title
+      if (previousSessionId) {
+        try {
+          const previousConversation = await database.conversation.findOne({
+            sessionId: previousSessionId,
+          });
+
+          if (previousConversation) {
+            // Nếu chưa có title hoặc title là mặc định, tạo title từ tin nhắn đầu tiên
+            if (
+              !previousConversation.title ||
+              previousConversation.title === "Cuộc trò chuyện mới"
+            ) {
+              const firstUserMessage = previousConversation.messages.find(
+                (msg) => msg.type === "human"
+              );
+
+              if (firstUserMessage) {
+                const title = firstUserMessage.content.trim().slice(0, 50);
+                await database.conversation.findOneAndUpdate(
+                  { sessionId: previousSessionId },
+                  { title: title },
+                  { new: true }
+                );
+                console.log(
+                  `✅ Đã đặt tên cho cuộc trò chuyện cũ: ${previousSessionId} -> ${title}`
+                );
+              }
+            }
+          }
+        } catch (error) {
+          console.error(
+            "Lỗi khi đặt tên cho cuộc trò chuyện cũ:",
+            error.message
+          );
+          // Không throw error, tiếp tục tạo session mới
+        }
+      }
+
+      // Tạo sessionId mới
       const sessionId = `session_${Date.now()}_${Math.random()
         .toString(36)
         .substr(2, 9)}`;
@@ -154,20 +194,35 @@ class ChatController {
       const conversations = await database.conversation
         .find(userId ? { userId } : {})
         .sort({ updatedAt: -1 })
-        .select("sessionId messages createdAt updatedAt")
+        .select("sessionId messages title createdAt updatedAt")
         .lean();
 
       // Format response
-      const formattedConversations = conversations.map((conv) => ({
-        sessionId: conv.sessionId,
-        createdAt: conv.createdAt,
-        updatedAt: conv.updatedAt,
-        messageCount: conv.messages?.length || 0,
-        lastMessage:
-          conv.messages?.length > 0
-            ? conv.messages[conv.messages.length - 1].content?.substring(0, 100)
-            : null,
-      }));
+      const formattedConversations = conversations.map((conv) => {
+        // Nếu chưa có title, tạo từ tin nhắn đầu tiên
+        let title = conv.title;
+        if (!title || title === "Cuộc trò chuyện mới") {
+          const firstUserMessage = conv.messages?.find(
+            (msg) => msg.type === "human"
+          );
+          title = firstUserMessage
+            ? firstUserMessage.content.trim().slice(0, 50)
+            : "Cuộc trò chuyện mới";
+        }
+
+        return {
+          id: conv.sessionId,
+          sessionId: conv.sessionId,
+          title: title,
+          createdAt: conv.createdAt,
+          updatedAt: conv.updatedAt,
+          messageCount: conv.messages?.length || 0,
+          lastMessage:
+            conv.messages?.length > 0
+              ? conv.messages[conv.messages.length - 1].content?.substring(0, 100)
+              : null,
+        };
+      });
 
       res.json({
         success: true,
