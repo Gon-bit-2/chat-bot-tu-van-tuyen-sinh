@@ -7,6 +7,8 @@ import { authentication } from "../../utils/jwt.js";
 router.use(authentication);
 
 router.get("/modes", chatController.getModes); // GET /v1/api/chat/modes - Lấy danh sách modes
+router.get("/cache-stats", chatController.getCacheStats); // GET /v1/api/chat/cache-stats - Xem thống kê cache
+router.post("/cache/clear", chatController.clearCache); // POST /v1/api/chat/cache/clear - Xóa cache
 router.post("/", chatController.chat); // POST /v1/api/chat
 router.post("/web-search", chatController.webSearch); // POST /v1/api/chat/web-search
 router.post("/conversation", chatController.createConversation); // POST /v1/api/chat/conversation

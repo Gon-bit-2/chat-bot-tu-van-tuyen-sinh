@@ -10,6 +10,7 @@ import { PromptTemplate } from "@langchain/core/prompts";
 import { tavily } from "@tavily/core";
 import { search } from "duck-duck-scrape";
 import axios from "axios";
+import cacheService from "../utils/cache.service.js"; // Import cache service
 
 // Cấu hình các mode khác nhau
 const MODES = {
@@ -517,6 +518,32 @@ class ChatService {
 
     console.log(`🔍 Đang xử lý câu hỏi (mode: ${mode}): "${message}"`);
 
+    // ⚡ OPTIMIZATION: Kiểm tra cache trước
+    const cachedResponse = cacheService.get(message, mode);
+    if (cachedResponse) {
+      console.log("🚀 Sử dụng cached response - tiết kiệm thời gian!");
+
+      // Stream cached response
+      const stream = (async function* () {
+        yield cachedResponse;
+      })();
+
+      const saveHistoryCallback = async () => {
+        const userMessage = new HumanMessage(message);
+        const aiMessage = new AIMessage(cachedResponse);
+        const fullHistory = await this.loadConversation(sessionId);
+        fullHistory.push(userMessage, aiMessage);
+        await this.saveConversation(sessionId, fullHistory);
+      };
+
+      return {
+        stream,
+        saveHistoryCallback,
+        usedGoogle: false,
+        fromCache: true,
+      };
+    }
+
     // Load vectorStore cho mode này
     const vectorStore = await loadVectorStore(mode);
 
@@ -967,13 +994,15 @@ BẮT ĐẦU TRẢ LỜI BẰNG TIẾNG VIỆT:`
     let vhuDocs = [];
     let similarityScores = [];
     if (mode !== "web-search" && vectorStore) {
-      // Tăng k khi câu hỏi yêu cầu liệt kê nhiều ngành HOẶC hỏi về học phí
+      // ⚡ OPTIMIZATION: Giảm k để tăng tốc độ search
+      // Chỉ tăng k khi câu hỏi yêu cầu liệt kê nhiều thông tin
       const isListingMajors =
         /(liệt kê|các ngành|ngành nào|những ngành|danh sách)/i.test(message);
       const isTuitionQuestion = /(học phí|học bổng|chi phí|mức phí)/i.test(
         message
       );
-      const k = isListingMajors ? 30 : isTuitionQuestion ? 15 : 8; // Tăng k=15 cho câu hỏi học phí
+      // Giảm k xuống để tăng tốc: 5 (default), 10 (tuition), 20 (listing)
+      const k = isListingMajors ? 20 : isTuitionQuestion ? 10 : 5;
 
       // Sử dụng similaritySearchWithScore để lấy similarity scores
       const results = await vectorStore.similaritySearchWithScore(message, k);
@@ -1261,6 +1290,16 @@ Tôi là trợ lý hỗ trợ sinh viên Đại học Văn Hiến, chỉ có th�
       fullHistory.push(userMessage, aiMessage);
       await this.saveConversation(sessionId, fullHistory);
       console.log("✅ Đã lưu lịch sử cho sessionId:", sessionId);
+
+      // ⚡ OPTIMIZATION: Cache response sau khi lưu
+      // Chỉ cache nếu không phải câu hỏi tính toán (vì có thể thay đổi)
+      const isCalculationQuery = /(tính điểm|đủ điểm|gợi ý tổ hợp)/i.test(
+        message
+      );
+      if (!isCalculationQuery && aiResponseText.length > 20) {
+        cacheService.set(message, aiResponseText, mode);
+        console.log("💾 Đã cache response cho câu hỏi này");
+      }
     };
 
     return { stream, saveHistoryCallback, usedGoogle: useGoogle };

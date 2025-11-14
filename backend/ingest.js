@@ -61,12 +61,15 @@ const runIngestionForMode = async (mode) => {
     }
 
     // Chia nhỏ các tài liệu thành các đoạn văn bản (chunk)
+    // Tối ưu hóa: Chunk lớn hơn = ít chunks hơn = search nhanh hơn
     const textSplitter = new RecursiveCharacterTextSplitter({
-      chunkSize: 1000,
-      chunkOverlap: 200,
+      chunkSize: 1500, // Tăng từ 1000 lên 1500
+      chunkOverlap: 300, // Tăng overlap để đảm bảo context liên kết tốt
     });
     const splitDocs = await textSplitter.splitDocuments(docs);
-    console.log(`✅ Đã chia thành ${splitDocs.length} đoạn văn bản.`);
+    console.log(
+      `✅ Đã chia thành ${splitDocs.length} đoạn văn bản (optimized).`
+    );
 
     // Số hóa và lưu trữ vào FAISS index
     console.log("⏳ Bắt đầu tạo và lưu trữ vector store...");

@@ -1,6 +1,7 @@
 "use strict";
 import chatService from "../service/chat.service.js";
 import database from "../config/database.js";
+import cacheService from "../utils/cache.service.js"; // Import cache service
 
 class ChatController {
   async chat(req, res) {
@@ -219,7 +220,10 @@ class ChatController {
           messageCount: conv.messages?.length || 0,
           lastMessage:
             conv.messages?.length > 0
-              ? conv.messages[conv.messages.length - 1].content?.substring(0, 100)
+              ? conv.messages[conv.messages.length - 1].content?.substring(
+                  0,
+                  100
+                )
               : null,
         };
       });
@@ -239,7 +243,9 @@ class ChatController {
     try {
       const { sessionId } = req.params;
       if (!sessionId) {
-        return res.status(400).json({ success: false, error: "sessionId là bắt buộc" });
+        return res
+          .status(400)
+          .json({ success: false, error: "sessionId là bắt buộc" });
       }
 
       const userId = req.user?.userId;
@@ -252,12 +258,21 @@ class ChatController {
       if (!deleted) {
         // Nếu có userId nhưng không tìm thấy (có thể do conversation không thuộc user), thử xóa theo sessionId thuần như fallback
         if (userId) {
-          const fallbackDeleted = await database.conversation.findOneAndDelete({ sessionId });
+          const fallbackDeleted = await database.conversation.findOneAndDelete({
+            sessionId,
+          });
           if (!fallbackDeleted) {
-            return res.status(404).json({ success: false, error: "Không tìm thấy cuộc trò chuyện" });
+            return res
+              .status(404)
+              .json({
+                success: false,
+                error: "Không tìm thấy cuộc trò chuyện",
+              });
           }
         } else {
-          return res.status(404).json({ success: false, error: "Không tìm thấy cuộc trò chuyện" });
+          return res
+            .status(404)
+            .json({ success: false, error: "Không tìm thấy cuộc trò chuyện" });
         }
       }
 
@@ -269,7 +284,9 @@ class ChatController {
       return res.json({ success: true });
     } catch (error) {
       console.error("Lỗi khi xóa cuộc trò chuyện:", error);
-      return res.status(500).json({ success: false, error: "Lỗi máy chủ nội bộ." });
+      return res
+        .status(500)
+        .json({ success: false, error: "Lỗi máy chủ nội bộ." });
     }
   }
 
@@ -319,6 +336,42 @@ class ChatController {
       console.error("❌ Error in web search:", error);
       res.write(`data: ${JSON.stringify({ error: error.message })}\n\n`);
       res.end();
+    }
+  }
+
+  // ⚡ OPTIMIZATION: Get cache statistics
+  async getCacheStats(req, res) {
+    try {
+      const stats = cacheService.getStats();
+      return res.json({
+        success: true,
+        stats,
+        message: "Cache statistics retrieved successfully",
+      });
+    } catch (error) {
+      console.error("❌ Error getting cache stats:", error);
+      return res.status(500).json({
+        success: false,
+        error: "Failed to get cache statistics",
+      });
+    }
+  }
+
+  // ⚡ OPTIMIZATION: Clear cache
+  async clearCache(req, res) {
+    try {
+      const { mode } = req.body; // Optional: clear specific mode
+      cacheService.clear(mode);
+      return res.json({
+        success: true,
+        message: mode ? `Cache cleared for mode: ${mode}` : "All cache cleared",
+      });
+    } catch (error) {
+      console.error("❌ Error clearing cache:", error);
+      return res.status(500).json({
+        success: false,
+        error: "Failed to clear cache",
+      });
     }
   }
 }
